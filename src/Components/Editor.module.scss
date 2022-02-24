@@ -1,7 +1,7 @@
 .editor {
     margin: auto;
     width: 60%;
-    height: 80%;
+    height: 90%;
     position: relative;
     display: flex;
     .appName {
@@ -45,7 +45,7 @@
             &:hover {
                 background-color: #cdc9c9;
                 .icon {
-                    font-size: 1.4rem;
+                    font-size: 1.3rem;
                 }
                 .name {
                     font-size: 1.1rem;
@@ -54,7 +54,7 @@
             }
 
             .icon {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
                 margin-right: 12px;
             }
             .name {
@@ -65,7 +65,7 @@
     .active {
         background-color: #cdc9c9;
         .icon {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
         .name {
             font-size: 1.1rem;
@@ -103,23 +103,30 @@
             #imageFile {
                 display: none;
             }
-            .imageFileIcon {
-                margin: auto;
-                text-align: center;
-                cursor: pointer;
-                .icon {
-                    font-size: 4rem;
-                    font-weight: 100;
-                }
-                .title {
-                    font-size: 1.6rem;
-                    margin-top: 12px;
-                }
-            }
             .img {
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+            }
+            .imageInput {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                .imageFileIcon {
+                    text-align: center;
+                    cursor: pointer;
+                    .icon {
+                        font-size: 3rem;
+                        font-weight: 100;
+                    }
+                    .title {
+                        font-size: 1.3rem;
+                        margin-top: 12px;
+                    }
+                }
             }
         }
         .autoBorder {
@@ -130,12 +137,10 @@
         }
         &Range {
             width: 90%;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-evenly;
+            text-align: center;
             .range {
-                width: 50%;
+                margin: auto;
+                width: 60%;
                 display: flex;
                 align-items: center;
                 .input {
@@ -145,22 +150,17 @@
                     cursor: pointer;
                 }
             }
-            .btnReset {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: center;
-                .btn {
-                    font-size: 0.9rem;
-                    padding: 8px 12px;
-                    margin: 12px 6px;
-                    border-radius: 6px;
-                    background-color: #81a2ff;
-                    color: black;
-                    cursor: pointer;
-                    &:hover {
-                        box-shadow: 0 0 10px #81a2ff;
-                    }
+            .btn {
+                display: inline-block;
+                font-size: 0.9rem;
+                padding: 8px 12px;
+                margin-top: 12px;
+                border-radius: 6px;
+                background-color: #81a2ff;
+                color: black;
+                cursor: pointer;
+                &:hover {
+                    box-shadow: 0 0 10px #81a2ff;
                 }
             }
         }

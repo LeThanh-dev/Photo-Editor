@@ -9,6 +9,13 @@ const Editor = () => {
     const imageRef = useRef()
     const context = useRef()
     const imageEditedRef = useRef()
+    const imageWebRef = useRef()
+    const styleIndex = useRef(0)
+    const listStyle = [
+        "contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5) hue-rotate(-20deg)",
+        "sepia(0.5) hue-rotate(-30deg) saturate(1.2) contrast(0.8)",
+        "sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9) hue-rotate(-10deg)"
+    ]
     const handleChangeImage = (imageData) => {
         image && URL.revokeObjectURL(image)
         const img = imageData[0]
@@ -94,13 +101,13 @@ const Editor = () => {
             max: 20,
             unit: "px"
         },
-        sepia:
+        "hue-rotate":
         {
             min: 0,
             value: 0,
             valueDefault: 0,
-            max: 100,
-            unit: "%"
+            max: 360,
+            unit: "deg"
         }
     }
     const [options, setOptions] = useState(optionsDefault)
@@ -139,6 +146,16 @@ const Editor = () => {
             </div>
             {image && (
                 <ul className={styles.sideBar}>
+                    <li
+                        className={styles.sideBarItem}
+                        onClick={() => {
+                            setOptions(optionsDefault)
+                            setSettingActive("default")
+                        }}
+                    >
+                        <i className={clsx("fas fa-user-cog", styles.icon)}></i>
+                        <span className={styles.name}>Mặc định</span>
+                    </li>
                     <li
                         className={styles.sideBarItem}
                         onClick={() => {
@@ -196,12 +213,21 @@ const Editor = () => {
                     <li
                         className={styles.sideBarItem}
                         onClick={() => {
-                            setSettingActive("sepia")
+                            setSettingActive("hue-rotate")
                         }}
                     >
                         <i className={clsx("fas fa-paint-roller", styles.icon)}></i>
-                        <span className={styles.name}>Nâu đỏ</span>
+                        <span className={styles.name}>Chuyển màu</span>
                     </li>
+                    {/* <li
+                        className={styles.sideBarItem}
+                        onClick={() => {
+                            savePhoto()
+                        }}
+                    >
+                        <i className={clsx("fas fa-random", styles.icon)}></i>
+                        <span className={styles.name}>Ngẫu hứng</span>
+                    </li> */}
                     <li
                         className={styles.sideBarItem}
                         onClick={() => {
@@ -226,6 +252,7 @@ const Editor = () => {
                                     src={image}
                                     className={styles.img}
                                     alt="image"
+                                    crossOrigin={true}
                                     style={
                                         {
                                             filter: getOptionsStyle()
@@ -235,7 +262,7 @@ const Editor = () => {
                                 ></img>
                             </>
                         ) : (
-                            <>
+                            <div className={styles.imageInput}>
                                 <label
                                     htmlFor={styles.imageFile}
                                     className={styles.imageFileIcon}
@@ -243,7 +270,7 @@ const Editor = () => {
                                     <i className={clsx("fas fa-image", styles.icon)}></i>
                                     <p className={styles.title}>Chọn ảnh</p>
                                 </label>
-                            </>
+                            </div>
                         )
                     }
                     <input
@@ -254,7 +281,7 @@ const Editor = () => {
                     ></input>
 
                 </div>
-                {settingActive && (
+                {settingActive && settingActive !== "default" && (
                     <div className={styles.imageBoxRange}>
                         <div className={styles.range}>
                             <span>{Math.abs(options[settingActive].min)}</span>
@@ -270,22 +297,13 @@ const Editor = () => {
                             ></input>
                             <span>{settingActive !== "opacity" ? options[settingActive].value : 100 - options[settingActive].value}</span>
                         </div>
-                        <div className={styles.btnReset}>
-                            <span
+                        <span
 
-                                className={styles.btn}
-                                onClick={() => {
-                                    setOptionsStyle(settingActive, optionsDefault[settingActive].valueDefault)
-                                }}
-                            >Reset</span>
-                            <span
-
-                                className={styles.btn}
-                                onClick={() => {
-                                    setOptions(optionsDefault)
-                                }}
-                            >Reset All</span>
-                        </div>
+                            className={styles.btn}
+                            onClick={() => {
+                                setOptionsStyle(settingActive, optionsDefault[settingActive].valueDefault)
+                            }}
+                        >Reset</span>
                     </div>
                 )}
             </div>
