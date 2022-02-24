@@ -9,13 +9,6 @@ const Editor = () => {
     const imageRef = useRef()
     const context = useRef()
     const imageEditedRef = useRef()
-    const imageWebRef = useRef()
-    const styleIndex = useRef(0)
-    const listStyle = [
-        "contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5) hue-rotate(-20deg)",
-        "sepia(0.5) hue-rotate(-30deg) saturate(1.2) contrast(0.8)",
-        "sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9) hue-rotate(-10deg)"
-    ]
     const handleChangeImage = (imageData) => {
         image && URL.revokeObjectURL(image)
         const img = imageData[0]
