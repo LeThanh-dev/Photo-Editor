@@ -7,8 +7,11 @@
     .appName {
         font-size: 1.3rem;
         position: absolute;
-        top: 6px;
-        right: 12px;
+        top: -20px;
+        right: 0px;
+        .logo {
+            width: 100px;
+        }
     }
     .canvasBox {
         display: none;
@@ -67,8 +70,8 @@
         .name {
             font-size: 1.1rem;
         }
-        .name,.icon 
-        {
+        .name,
+        .icon {
             color: #3663dd;
         }
     }
@@ -174,15 +177,12 @@
                 }
             }
         }
-        .imageBox
-        {
+        .imageBox {
             &Range {
-                .range 
-                {
+                .range {
                     width: 80%;
                 }
             }
         }
     }
 }
-

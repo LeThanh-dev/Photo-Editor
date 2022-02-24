@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import { useState, useEffect, useRef } from "react"
 import styles from "./Editor.module.scss"
+import logo from "../Image/logo.png"
 const Editor = () => {
     const [image, setImage] = useState("")
     const [settingActive, setSettingActive] = useState("")
@@ -123,7 +124,13 @@ const Editor = () => {
     }, [image])
     return (
         <div className={styles.editor}>
-            <h2 className={styles.appName}>Photo Editor</h2>
+            <div className={styles.appName}>
+                <img
+                    className={styles.logo}
+                    src={logo}
+                    alt="logo photo editor"
+                ></img>
+            </div>
             <div className={styles.canvasBox}>
                 <canvas ref={canvasRef} ></canvas>
                 <a
