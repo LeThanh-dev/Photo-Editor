@@ -9,6 +9,8 @@ const Editor = () => {
     const imageRef = useRef()
     const context = useRef()
     const imageEditedRef = useRef()
+    const limitActiveEvent = useRef(true)
+    const listOptionItem = useRef()
     const handleChangeImage = (imageData) => {
         image && URL.revokeObjectURL(image)
         const img = imageData[0]
@@ -103,22 +105,32 @@ const Editor = () => {
             }
         })
     }
+    const removeActive = (list) => {
+        const actived = [...list].find(item => item.className.includes(styles.active))
+        actived && actived.classList.remove(styles.active)
+    }
     useEffect(() => {
         if (image) {
             console.log('useEffect');
-            const list = document.querySelectorAll(`.${styles.sideBarItem}`)
-            list.forEach(item => {
-                item.addEventListener("click", () => {
-                    const actived = [...list].find(item => item.className.includes(styles.active))
-                    actived && actived.classList.remove(styles.active)
-                    item && item.classList.add(styles.active)
+            if (limitActiveEvent.current) {
+                limitActiveEvent.current = false
+                listOptionItem.current.forEach(item => {
+                    item.addEventListener("click", () => {
+                        removeActive(listOptionItem.current)
+                        item && item.classList.add(styles.active)
+                    })
                 })
-            })
-
+            }
+            setOptions(optionsDefault)
             console.log(imageRef.current.naturalWidth);
             console.log(imageRef.current.naturalHeight);
             const canvas = canvasRef.current
             context.current = canvas.getContext('2d')
+        }
+        return () => {
+            listOptionItem.current= document.querySelectorAll(`.${styles.sideBarItem}`)
+            removeActive(listOptionItem.current)
+            listOptionItem.current[0].classList.add(styles.active)
         }
     }, [image])
     return (
