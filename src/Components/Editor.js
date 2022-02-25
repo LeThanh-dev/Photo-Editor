@@ -21,18 +21,8 @@ const Editor = () => {
         }
         return style
     }
-    const setOptionsStyle = (settingActive, value) => {
-        setOptions({
-            ...options,
-            [settingActive]: {
-                ...options[settingActive],
-                value: value
-            }
-        })
-    }
 
     const savePhoto = () => {
-
         const canvas = canvasRef.current
         const img = imageRef.current
         canvas.setAttribute("width", img.naturalWidth)
@@ -104,6 +94,15 @@ const Editor = () => {
         }
     }
     const [options, setOptions] = useState(optionsDefault)
+    const setOptionsStyle = (settingActive, value) => {
+        setOptions({
+            ...options,
+            [settingActive]: {
+                ...options[settingActive],
+                value: value
+            }
+        })
+    }
     useEffect(() => {
         if (image) {
             console.log('useEffect');
@@ -140,7 +139,7 @@ const Editor = () => {
             {image && (
                 <ul className={styles.sideBar}>
                     <li
-                        className={styles.sideBarItem}
+                        className={clsx(styles.sideBarItem, styles.active)}
                         onClick={() => {
                             setOptions(optionsDefault)
                             setSettingActive("default")
@@ -174,7 +173,7 @@ const Editor = () => {
                         }}
                     >
                         <i className={clsx("fas fa-magic", styles.icon)}></i>
-                        <span className={styles.name}>Độ trong suốt</span>
+                        <span className={styles.name}>Trong suốt</span>
                     </li>
                     <li
                         className={styles.sideBarItem}
@@ -212,15 +211,30 @@ const Editor = () => {
                         <i className={clsx("fas fa-paint-roller", styles.icon)}></i>
                         <span className={styles.name}>Chuyển màu</span>
                     </li>
-                    {/* <li
+                    <li
                         className={styles.sideBarItem}
                         onClick={() => {
-                            savePhoto()
+                            setOptions({
+                                ...optionsDefault,
+                                "brightness": {
+                                    ...options.brightness,
+                                    value: 112
+                                },
+                                "saturate": {
+                                    ...options.saturate,
+                                    value: 168
+                                },
+                                "grayscale": {
+                                    ...options.grayscale,
+                                    value: 16
+                                }
+                            })
+                            setSettingActive('random')
                         }}
                     >
                         <i className={clsx("fas fa-random", styles.icon)}></i>
                         <span className={styles.name}>Ngẫu hứng</span>
-                    </li> */}
+                    </li>
                     <li
                         className={styles.sideBarItem}
                         onClick={() => {
@@ -245,7 +259,6 @@ const Editor = () => {
                                     src={image}
                                     className={styles.img}
                                     alt="image"
-                                    crossOrigin={true}
                                     style={
                                         {
                                             filter: getOptionsStyle()
@@ -274,7 +287,7 @@ const Editor = () => {
                     ></input>
 
                 </div>
-                {settingActive && settingActive !== "default" && (
+                {settingActive && settingActive !== "default" && settingActive !== "random" && (
                     <div className={styles.imageBoxRange}>
                         <div className={styles.range}>
                             <span>{Math.abs(options[settingActive].min)}</span>
