@@ -5,38 +5,6 @@ import logo from "../Image/logo.png"
 const Editor = () => {
     const [image, setImage] = useState("")
     const [settingActive, setSettingActive] = useState("")
-    const canvasRef = useRef()
-    const imageRef = useRef()
-    const context = useRef()
-    const imageEditedRef = useRef()
-    const limitActiveEvent = useRef(true)
-    const listOptionItem = useRef()
-    const handleChangeImage = (imageData) => {
-        image && URL.revokeObjectURL(image)
-        const img = imageData[0]
-        setImage(URL.createObjectURL(img))
-    }
-    const getOptionsStyle = () => {
-        let style = ""
-        for (let key in options) {
-            style += `${key}(${Math.abs(options[key].value)}${options[key].unit}) `
-        }
-        return style
-    }
-
-    const savePhoto = () => {
-        const canvas = canvasRef.current
-        const img = imageRef.current
-        canvas.setAttribute("width", img.naturalWidth)
-        canvas.setAttribute("height", img.naturalHeight)
-        context.current.filter = getOptionsStyle()
-        const imgCanvas = context.current.drawImage(imageRef.current, 0, 0, img.naturalWidth, img.naturalHeight)
-        const imageEdited = imageEditedRef.current
-        const url = canvas.toDataURL("image/*");
-        imageEdited.setAttribute("href", url)
-        imageEdited.setAttribute("download", "Edited_Photo")
-        imageEdited.click()
-    }
     const optionsDefault = {
         brightness:
         {
@@ -96,6 +64,39 @@ const Editor = () => {
         }
     }
     const [options, setOptions] = useState(optionsDefault)
+    const canvasRef = useRef()
+    const imageRef = useRef()
+    const context = useRef()
+    const imageEditedRef = useRef()
+    const limitActiveEvent = useRef(true)
+    const listOptionItem = useRef()
+    const handleChangeImage = (imageData) => {
+        image && URL.revokeObjectURL(image)
+        const img = imageData[0]
+        setImage(URL.createObjectURL(img))
+    }
+    const getOptionsStyle = () => {
+        let style = ""
+        for (let key in options) {
+            style += `${key}(${Math.abs(options[key].value)}${options[key].unit}) `
+        }
+        return style
+    }
+
+    const savePhoto = () => {
+        const canvas = canvasRef.current
+        const img = imageRef.current
+        canvas.setAttribute("width", img.naturalWidth)
+        canvas.setAttribute("height", img.naturalHeight)
+        context.current.filter = getOptionsStyle()
+        const imgCanvas = context.current.drawImage(imageRef.current, 0, 0, img.naturalWidth, img.naturalHeight)
+        const imageEdited = imageEditedRef.current
+        const url = canvas.toDataURL("image/*");
+        imageEdited.setAttribute("href", url)
+        imageEdited.setAttribute("download", "Edited_Photo")
+        imageEdited.click()
+    }
+
     const setOptionsStyle = (settingActive, value) => {
         setOptions({
             ...options,
@@ -128,7 +129,7 @@ const Editor = () => {
             context.current = canvas.getContext('2d')
         }
         return () => {
-            listOptionItem.current= document.querySelectorAll(`.${styles.sideBarItem}`)
+            listOptionItem.current = document.querySelectorAll(`.${styles.sideBarItem}`)
             removeActive(listOptionItem.current)
             listOptionItem.current[0].classList.add(styles.active)
         }
