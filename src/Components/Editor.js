@@ -89,6 +89,7 @@ const Editor = () => {
         canvas.setAttribute("width", img.naturalWidth)
         canvas.setAttribute("height", img.naturalHeight)
         context.current.filter = getOptionsStyle()
+        console.log(getOptionsStyle());
         const imgCanvas = context.current.drawImage(imageRef.current, 0, 0, img.naturalWidth, img.naturalHeight)
         const imageEdited = imageEditedRef.current
         const url = canvas.toDataURL("image/*");
@@ -112,7 +113,6 @@ const Editor = () => {
     }
     useEffect(() => {
         if (image) {
-            console.log('useEffect');
             if (limitActiveEvent.current) {
                 limitActiveEvent.current = false
                 listOptionItem.current.forEach(item => {
@@ -123,8 +123,6 @@ const Editor = () => {
                 })
             }
             setOptions(optionsDefault)
-            console.log(imageRef.current.naturalWidth);
-            console.log(imageRef.current.naturalHeight);
             const canvas = canvasRef.current
             context.current = canvas.getContext('2d')
         }
