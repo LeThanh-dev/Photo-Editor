@@ -5,6 +5,8 @@ import logo from "../Image/logo.png"
 const Editor = () => {
     const [image, setImage] = useState("")
     const [settingActive, setSettingActive] = useState("")
+
+    // Định nghĩa các bộ lọc mặc định ban đầu
     const optionsDefault = {
         brightness:
         {
@@ -70,34 +72,15 @@ const Editor = () => {
     const imageEditedRef = useRef()
     const limitActiveEvent = useRef(true)
     const listOptionItem = useRef()
+
+    // Xử lý việc thay đổi bức ảnh muốn chỉnh sửa
     const handleChangeImage = (imageData) => {
         image && URL.revokeObjectURL(image)
         const img = imageData[0]
         setImage(URL.createObjectURL(img))
     }
-    const getOptionsStyle = () => {
-        let style = ""
-        for (let key in options) {
-            style += `${key}(${Math.abs(options[key].value)}${options[key].unit}) `
-        }
-        return style
-    }
 
-    const savePhoto = () => {
-        const canvas = canvasRef.current
-        const img = imageRef.current
-        canvas.setAttribute("width", img.naturalWidth)
-        canvas.setAttribute("height", img.naturalHeight)
-        context.current.filter = getOptionsStyle()
-        console.log(getOptionsStyle());
-        const imgCanvas = context.current.drawImage(imageRef.current, 0, 0, img.naturalWidth, img.naturalHeight)
-        const imageEdited = imageEditedRef.current
-        const url = canvas.toDataURL("image/*");
-        imageEdited.setAttribute("href", url)
-        imageEdited.setAttribute("download", "Edited_Photo")
-        imageEdited.click()
-    }
-
+    // Thay đổi giá trị của bộ lọc đang xét
     const setOptionsStyle = (settingActive, value) => {
         setOptions({
             ...options,
@@ -107,10 +90,37 @@ const Editor = () => {
             }
         })
     }
+
+    // Lấy ra giá trị của tất cả bộ lọc cuối cùng muốn lưu về
+    const getOptionsStyle = () => {
+        let style = ""
+        for (let key in options) {
+            style += `${key}(${Math.abs(options[key].value)}${options[key].unit}) `
+        }
+        return style
+    }
+
+    // Lưu ảnh
+    const savePhoto = () => {
+        const canvas = canvasRef.current
+        const img = imageRef.current
+        canvas.setAttribute("width", img.naturalWidth)
+        canvas.setAttribute("height", img.naturalHeight)
+        context.current.filter = getOptionsStyle()
+        const imgCanvas = context.current.drawImage(imageRef.current, 0, 0, img.naturalWidth, img.naturalHeight)
+        const imageEdited = imageEditedRef.current
+        const url = canvas.toDataURL("image/*");
+        imageEdited.setAttribute("href", url)
+        imageEdited.setAttribute("download", "Edited_Photo")
+        imageEdited.click()
+    }
+
+    // Bỏ hiệu ứng bộ lọc đang chọn ( Mục đích: Thay đổi lựa chọn bộ lọc )
     const removeActive = (list) => {
         const actived = [...list].find(item => item.className.includes(styles.active))
         actived && actived.classList.remove(styles.active)
     }
+
     useEffect(() => {
         if (image) {
             if (limitActiveEvent.current) {
