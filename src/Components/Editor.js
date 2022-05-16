@@ -299,7 +299,7 @@ const Editor = () => {
                                 </label>
                             </div>
                         )
-                    }
+                    } 
                     <input
                         accept="image/*"
                         id={styles.imageFile}
